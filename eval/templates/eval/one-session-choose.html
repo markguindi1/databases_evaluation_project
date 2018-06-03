@@ -1,0 +1,58 @@
+
+
+{% extends 'eval/prof-base.html' %}
+
+{% block body %}
+
+<h3> Sessions for the course: {{ sessions.0.semester_course_id.course_num }},
+  {{ sessions.0.semester_course_id.semester}} {{ sessions.0.semester_course_id.year}}</h3>
+  <h3> Choose a session to generate a report. </h3>
+
+<form action="{% url 'eval:one-session-report' %}" method="POST">
+  {% csrf_token %}
+  <table border="1">
+    <tr>
+      <th></th>
+      <th>
+        Day of Week
+      </th>
+      <th>
+        Session Start Time
+      </th>
+      <th>
+        Session End Time
+      </th>
+      <th>
+        Evaluation Password (Default: auto-generated)
+      </th>
+    </tr>
+    {% for session in sessions %}
+      <tr>
+        <td><input type="radio" name="session-id" value="{{ session.pk }}"></td>
+        <td>
+          {% for day in days_of_week %}
+            {% if day.1 == session.session_start.weekday %}
+              {{ day.0 }}
+            {% endif %}
+          {% endfor %}
+        </td>
+        <td>
+          {{ session.session_start }}
+        </td>
+        <td>
+          {{ session.session_end }}
+        </td>
+        <td>
+          {{ session.session_eval_pswd }}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  <br />
+
+  <input type="submit" name="generate-report" value="Generate Report" /><br />
+
+</form>
+
+
+{% endblock %}

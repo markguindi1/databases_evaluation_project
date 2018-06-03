@@ -1,0 +1,127 @@
+
+{% extends 'eval/prof-base.html' %}
+
+{% block body %}
+
+<script>
+
+$(document).ready(function() {
+//console.log( 'ready!' );
+  $('#add-meeting-time').click(function(){
+    var newRowName = (parseInt($("#meeting-times tr:last").attr('name')) + 1).toString();
+    $('#max-meeting-time').val(newRowName);
+    var newRowHtml = '<tr name="' + newRowName + '">'
+    + '<td><input type="checkbox" name="check-del"></td>'
+    + '<td><select name="day-' + newRowName + '">'
+    + '<option value="6">Sunday</option>'
+    + '<option value="0">Monday</option>'
+    + '<option value="1">Tuesday</option>'
+    + '<option value="2">Wednesday</option>'
+    + '<option value="3">Thursday</option>'
+    + '<option value="4">Friday</option>'
+    + '<option value="5">Saturday</option>'
+    + '</select></td>'
+    + '<td><input type="time" name="start-time-' + newRowName + '"></td>'
+    + '<td><input type="time" name="end-time-' + newRowName + '"></td>'
+    + '</tr>';
+
+    $("#meeting-times").append(newRowHtml);
+  });
+
+  $('#delete-meeting-time').click(function(){
+    $('#meeting-times').find('input[name="check-del"]').each(function(){
+      if($(this).is(":checked")){
+        $(this).parents("tr").remove();
+      }
+    });
+  });
+
+});
+
+</script>
+
+
+
+
+<h2> Add Course </h2>
+
+<form action="{% url 'eval:submit-add-course' %}" method="POST">
+  {% csrf_token %}
+
+  <label> Course number: </label>
+  <br />
+  <input type="text" name="course-number" placeholder="Course Number" size="20" maxlength="20" required/>
+  <br />
+  <br />
+
+  <label> Semester: </label>
+  <br />
+  <select name="semester" required>
+    <option value="Fall"> Fall </option>
+    <option value="January"> January </option>
+    <option value="Spring"> Spring </option>
+    <option value="Summer"> Summer </option>
+  </select>
+  <br />
+  <br />
+
+  <label> Year: </label>
+  <br />
+  <input type="number" name="year" min="1995" max="2150" placeholder="Year" required>
+  <br />
+  <br />
+
+  <label> Semester Start Date: </label>
+  <br />
+  <input type="date" name="semester-start" required/>
+  <br />
+  <br />
+
+  <label> Semester End Date: </label>
+  <br />
+  <input type="date" name="semester-end" required/>
+  <br />
+  <br />
+
+  <!-- Meeting times -->
+  <label> Weekly Evaluation Times: </label>
+
+  <h5>
+    Note: Adding these times will auto-generate weekly evaluation sessions for the duration of the semester.<br />
+    You can add, edit, and delete these sessions at any time.<br />
+    If you add an improper time (ex. end time is after start time), the time will not be saved.
+  </h5>
+  <button type="button" id="add-meeting-time"> Add Meeting Time </button>
+  <button type="button" id="delete-meeting-time"> Delete Meeting Time </button>
+  <input type="number" id="max-meeting-time" name="max-meeting-time" value="0" hidden />
+  <br />
+  <br />
+  <table border="1" id="meeting-times">
+    <tr>
+      <th>Sel</th>
+      <th>
+        Day of Week
+      </th>
+      <th>
+        Evalaution Start Time
+      </th>
+      <th>
+        Evaluation End Time
+      </th>
+    </tr>
+    <tr name="0" hidden>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+
+  <br />
+  <br />
+  <input type="submit" value="Add Course" /><br />
+
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,25 @@
+
+
+<form action="{% url 'eval:check-login' %}" method=POST>
+  {% csrf_token %}
+
+  {% if error_message %}
+    <label style="color: red"> {{ error_message }} </label>
+  {% endif %}
+
+  <p> Please log in:</p>
+
+  <input type="text" name="username" placeholder="Username"
+  {% if valid_username %}
+    value="{{ valid_username }}"
+  {% endif %}
+  />
+  <br/>
+  <br/>
+  <input type="password" name="password" placeholder="Password"/>
+  <br/>
+  <br/>
+  <input type="submit" value="Login">
+</form>
+
+<a href="{% url 'eval:index' %}"> Click here to go to the Class Evaluation page </a>

@@ -1,0 +1,178 @@
+
+{% extends 'eval/prof-base.html' %}
+
+{% block body %}
+
+<script>
+
+$(document).ready(function() {
+//console.log( 'ready!' );
+var num = 0
+$('#meeting-times').find('select[name="day-"]').each(function(){
+  num += 1;
+  var newName = $(this).attr('name') + num.toString();
+  $(this).attr('name', newName);
+});
+
+num = 0
+$('#meeting-times').find('input[name="start-time-"]').each(function(){
+  num += 1;
+  var newName = $(this).attr('name') + num.toString();
+  $(this).attr('name', newName);
+});
+
+num = 0
+$('#meeting-times').find('input[name="end-time-"]').each(function(){
+  num += 1;
+  var newName = $(this).attr('name') + num.toString();
+  $(this).attr('name', newName);
+});
+
+$('#max-meeting-time').val(num.toString());
+
+  $('#add-meeting-time').click(function(){
+    var newRowName = (parseInt($("#meeting-times tr:last").attr('name')) + 1).toString();
+    $('#max-meeting-time').val(newRowName);
+    var newRowHtml = '<tr name="' + newRowName + '">'
+    + '<td><input type="checkbox" name="check-del"></td>'
+    + '<td><select name="day-' + newRowName + '">'
+    + '<option value="6">Sunday</option>'
+    + '<option value="0">Monday</option>'
+    + '<option value="1">Tuesday</option>'
+    + '<option value="2">Wednesday</option>'
+    + '<option value="3">Thursday</option>'
+    + '<option value="4">Friday</option>'
+    + '<option value="5">Saturday</option>'
+    + '</select></td>'
+    + '<td><input type="time" name="start-time-' + newRowName + '"></td>'
+    + '<td><input type="time" name="end-time-' + newRowName + '"></td>'
+    + '</tr>';
+
+    $("#meeting-times").append(newRowHtml);
+  });
+
+  $('#delete-meeting-time').click(function(){
+    $('#meeting-times').find('input[name="check-del"]').each(function(){
+      if($(this).is(":checked")){
+        $(this).parents("tr").remove();
+      }
+    });
+  });
+
+});
+
+</script>
+
+
+<h2> Edit Course </h2>
+
+<form action="{% url 'eval:submit-edit-course' %}" method="POST">
+  {% csrf_token %}
+
+  <label> Course number: </label>
+  <br />
+  <input type="text" name="course-number" placeholder="Course Number" size="20" maxlength="20"
+    value="{{ course.course_num }}"/>
+  <br />
+  <br />
+
+  <label> Semester: </label>
+  <br />
+  <select name="semester">
+    {% for semester in semesters %}
+      <option value="{{ semester }}"
+      {% if course.semester == semester %}
+        selected="selected"
+      {% endif %}
+      >
+      {{ semester }}
+      </option>
+    {% endfor %}
+  </select>
+  <br />
+  <br />
+
+  <label> Year: </label>
+  <br />
+  <input type="number" name="year" min="1995" max="2150" value="{{ course.year }}" placeholder="Year">
+  <br />
+  <br />
+
+  <label> Semester Start Date: </label>
+  <br />
+  <input type="date" name="semester-start" value="{{ semester_start_date }}"/>
+  <br />
+  <br />
+
+  <label> Semester End Date: </label>
+  <br />
+  <input type="date" name="semester-end" value="{{ semester_end_date }}"/>
+  <br />
+  <br />
+
+  <label style="color:red">
+    Warning: Changing the semester start/end dates will delete evaluation<br />
+    sessions outisde the semester start and end dates, as well as the<br />
+    evalautions associated with them.
+  </label>
+  <br />
+  <br />
+
+  <label> Weekly Evaluation Times: </label>
+
+  <h5>
+    Note: Adding these times will auto-generate weekly evaluation sessions for the duration of the semester.<br />
+    Past evaluation session will not be affected. <br />
+    You can add, edit, and delete these sessions at any time.<br />
+    If you add an improper time (ex. end time is after start time), the time will not be saved.
+  </h5>
+  <button type="button" id="add-meeting-time"> Add Meeting Time </button>
+  <button type="button" id="delete-meeting-time"> Delete Meeting Time </button>
+  <input type="number" id="max-meeting-time" name="max-meeting-time" hidden />
+  <br />
+  <br />
+  <table border="1" id="meeting-times">
+    <tr>
+      <th>Sel</th>
+      <th>
+        Day of Week
+      </th>
+      <th>
+        Evalaution Start Time
+      </th>
+      <th>
+        Evaluation End Time
+      </th>
+    </tr>
+    <tr name="0" hidden>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    {% for time in weekly_eval_times %}
+      <tr name="{{ forloop.counter }}">
+        <td><input type="checkbox" name="check-del"></td>
+        <td><select name="day-" value="{{ time.day_of_week }}">
+          {% for day in days_of_week %}
+            <option value="{{ day.1 }}"
+            {% if time.day_of_week == day.1 %}
+              selected="selected"
+            {% endif %}
+            > {{ day.0 }} </option>
+          {% endfor %}
+        </select>
+        </td>
+        <td><input type="time" name="start-time-" value="{{ time.start_time|time:"H:i" }}"></td>
+        <td><input type="time" name="end-time-" value="{{ time.end_time|time:"H:i" }}"></td>
+      </tr>
+    {% endfor %}
+  </table>
+  <br />
+  <br />
+  <input type="submit" value="Save Changes" /><br />
+
+</form>
+
+
+{% endblock %}

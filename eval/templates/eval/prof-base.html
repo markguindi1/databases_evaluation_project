@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'eval/prof-style.css' %}" />
+    <link rel="stylesheet" href="{% static 'eval/style.css' %}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <title>{% block title %}Course Evaluation System{% endblock %}</title>
+</head>
+
+<body>
+    <a href="{% url 'eval:prof-homepage' %}" id="to-homepage"> Homepage </a>
+    <a href="{% url 'eval:prof-login' %}" id="to-logout"> Logout </a>
+    {% block body %}
+    {% endblock %}
+</body>
+</html>

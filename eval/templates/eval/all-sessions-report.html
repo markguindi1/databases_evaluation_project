@@ -1,0 +1,241 @@
+
+{% extends 'eval/prof-base.html' %}
+
+{% block body %}
+
+<script type="text/javascript">
+  // Load the Visualization API and the corechart package.
+  google.charts.load('current', {'packages':['corechart']});
+
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.charts.setOnLoadCallback(drawChart);
+
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  function drawChart() {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+
+    var great = parseInt($('#great-ct').val());
+    var good = parseInt($('#good-ct').val());
+    var neutral = parseInt($('#neutral-ct').val());
+    var bad = parseInt($('#bad-ct').val());
+    var veryBad = parseInt($('#very-bad-ct').val());
+
+    data.addColumn('string', 'Metric');
+
+    data.addColumn('number', 'Students');
+
+    data.addRows([
+      ['Great', great],
+      ['Good', good],
+      ['Neutral', neutral],
+      ['Bad', bad],
+      ['Very Bad', veryBad]
+    ]);
+
+    // Set chart options
+    var options = {'title':'Number of Students for each Metric',
+                   'width':400,
+                   'height':300};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+  }
+</script>
+
+<h2> Evaluation Report for Semester So Far</h2>
+<h3> Course: {{ course.course_num }},
+  {{ course.semester}} {{ course.year}}</h3>
+<h3> Semester Start: {{ course.semester_start_date }}</h3>
+<h3> Semester End: {{ course.semester_end_date }}</h3>
+<h3> Current Date: {{ now }}</h3>
+
+<div id="chart_div"></div>
+
+<form id="cts">
+  <input id="great-ct" value="{{ eval_great.count }}" hidden disabled />
+  <input id="good-ct" value="{{ eval_good.count }}" hidden disabled />
+  <input id="neutral-ct" value="{{ eval_neutral.count }}" hidden disabled />
+  <input id="bad-ct" value="{{ eval_bad.count }}" hidden disabled />
+  <input id="very-bad-ct" value="{{ eval_very_bad.count }}" hidden disabled />
+</form>
+
+<table border="1">
+  <tr>
+    <th>
+      Metric
+    </th>
+    <th>
+      Number of Students
+    </th>
+  </tr>
+  <tr>
+    <td>
+      Great
+    </td>
+    <td>
+      {{ eval_great.count }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Good
+    </td>
+    <td>
+      {{ eval_good.count }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Neutral
+    </td>
+    <td>
+      {{ eval_neutral.count }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Bad
+    </td>
+    <td>
+      {{ eval_bad.count }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Very Bad
+    </td>
+    <td>
+      {{ eval_very_bad.count }}
+    </td>
+  </tr>
+</table>
+
+<br />
+
+<table border="1">
+  <tr>
+    <th>
+      Date
+    </th>
+    <th>
+      Comments of Students who ticked "Great"
+    </th>
+  </tr>
+  {% for eval in eval_great %}
+    <tr>
+      <td>
+        {{ eval.eval_session_id.session_start}}
+      </td>
+      <td>
+        {{ eval.class_comment }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+
+<br />
+
+<table border="1">
+  <tr>
+    <th>
+      Date
+    </th>
+    <th>
+      Comments of Students who ticked "Good"
+    </th>
+  </tr>
+  {% for eval in eval_good %}
+    <tr>
+      <td>
+        {{ eval.eval_session_id.session_start}}
+      </td>
+      <td>
+        {{ eval.class_comment }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+
+<br />
+
+<table border="1">
+  <tr>
+    <th>
+      Date
+    </th>
+    <th>
+      Comments of Students who ticked "Neutral"
+    </th>
+  </tr>
+  {% for eval in eval_neutral %}
+    <tr>
+      <td>
+        {{ eval.eval_session_id.session_start}}
+      </td>
+      <td>
+        {{ eval.class_comment }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+
+<br />
+
+<table border="1">
+  <tr>
+    <th>
+      Date
+    </th>
+    <th>
+      Comments of Students who ticked "Bad"
+    </th>
+  </tr>
+  {% for eval in eval_bad %}
+    <tr>
+      <td>
+        {{ eval.eval_session_id.session_start}}
+      </td>
+      <td>
+        {{ eval.class_comment }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+
+<br />
+
+<table border="1">
+  <tr>
+    <th>
+      Date
+    </th>
+    <th>
+      Comments of Students who ticked "Very Bad"
+    </th>
+  </tr>
+  {% for eval in eval_very_bad %}
+    <tr>
+      <td>
+        {{ eval.eval_session_id.session_start}}
+      </td>
+      <td>
+        {{ eval.class_comment }}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+{% endblock %}

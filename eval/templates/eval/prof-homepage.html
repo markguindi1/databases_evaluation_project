@@ -1,0 +1,198 @@
+
+{% extends 'eval/prof-base.html' %}
+
+{% block body %}
+
+<h2> Welcome to the Professor Homepage, Professor {{ professor.first_name }} {{ professor.last_name }}.</h2>
+
+{% if error_message %}
+  <h3 style="color:red"> {{ error_message }} </h3>
+{% endif %}
+
+{% if confirm_message %}
+  <h3 style="color:green"> {{ confirm_message }} </h3>
+{% endif %}
+
+<!-- Current courses -->
+  <!-- Add courses -->
+<h3> Courses </h3>
+<form action="{% url 'eval:edit-course-action' %}" method="POST">
+  {% csrf_token %}
+
+  <table border="1">
+    <tr>
+      <th>
+      </th>
+      <th>
+        Course Number
+      </th>
+      <th>
+        Semester
+      </th>
+    </tr>
+
+    {% for course in courses %}
+      <tr>
+        <td>
+          <input type="radio" name="course-id" value="{{ course.pk }}" />
+        </td>
+        <td>
+          {{ course.course_num }}
+        </td>
+        <td>
+          {{ course.semester }} {{ course.year }}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  <br />
+  <br />
+  <a href="{% url 'eval:add-course' %}"><button type="button"> Add Course </button></a><br />
+  <input type="submit" name="edit-course" value="Edit Course" /><br />
+  <input type="submit" name="delete-course" value="Delete Course" /><br />
+
+</form>
+
+
+<!-- Currently open session -->
+<h3> Currently Open Sessions</h3>
+<table border="1">
+  <tr>
+    <th>
+      Course Number
+    </th>
+    <th>
+      Session Start Time
+    </th>
+    <th>
+      Session End Time
+    </th>
+    <th>
+      Evaluation Login Password
+    </th>
+  </tr>
+  {% if current_session is not None %}
+    <tr>
+      <td>
+        {{ current_session.semester_course_id.course_num }}
+      </td>
+      <td>
+        {{ current_session.session_start }}
+      </td>
+      <td>
+        {{ current_session.session_end }}
+      </td>
+      <td>
+        {{ current_session.session_eval_pswd }}
+      </td>
+    </tr>
+  {% endif %}
+</table>
+
+<!-- Manage sessions -->
+
+<h3> Manage Course Sessions </h3>
+
+<form action="{% url 'eval:course-sessions' %}" method="POST">
+  {% csrf_token %}
+
+  <table border="1">
+    <tr>
+      <th>
+      </th>
+      <th>
+        Course Number
+      </th>
+      <th>
+        Semester
+      </th>
+    </tr>
+
+    {% for course in courses %}
+      <tr>
+        <td>
+          <input type="radio" name="course-id" value="{{ course.pk }}" />
+        </td>
+        <td>
+          {{ course.course_num }}
+        </td>
+        <td>
+          {{ course.semester }} {{ course.year }}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  <br />
+  <br />
+  <input type="submit" name="edit-sessions" value="Edit Sessions" /><br />
+
+</form>
+
+
+<!-- Generate reports -->
+<h3> Reports</h3>
+
+  <!-- Single class session -->
+  <!-- Whole semester for course -->
+  <!-- Comparisons betwen two class sessions -->
+
+  <form action="{% url 'eval:choose-report' %}" method="POST">
+    {% csrf_token %}
+
+    <table border="1">
+      <tr>
+        <th>
+        </th>
+        <th>
+          Course Number
+        </th>
+        <th>
+          Semester
+        </th>
+      </tr>
+
+      {% for course in courses %}
+        <tr>
+          <td>
+            <input type="radio" name="course-id" value="{{ course.pk }}" />
+          </td>
+          <td>
+            {{ course.course_num }}
+          </td>
+          <td>
+            {{ course.semester }} {{ course.year }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <br />
+    <br />
+    <input type="submit" name="one-session-choose" value="Single Evaluation Session Report" /><br />
+    <input type="submit" name="all-sessions-report" value="Full Semester Report" /><br />
+    <input type="submit" name="two-sessions-choose" value="Comparison Evaluation Sessions Report" /><br />
+
+  </form>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+{% endblock %}

@@ -1,0 +1,383 @@
+
+{% extends 'eval/prof-base.html' %}
+
+{% block body %}
+
+<script type="text/javascript">
+  // Load the Visualization API and the corechart package.
+  google.charts.load('current', {'packages':['corechart']});
+
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.charts.setOnLoadCallback(session1Chart);
+  google.charts.setOnLoadCallback(session2Chart);
+
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  function session1Chart() {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+
+    var great = parseInt($('#great-ct1').val());
+    var good = parseInt($('#good-ct1').val());
+    var neutral = parseInt($('#neutral-ct1').val());
+    var bad = parseInt($('#bad-ct1').val());
+    var veryBad = parseInt($('#very-bad-ct1').val());
+
+    data.addColumn('string', 'Metric');
+
+    data.addColumn('number', 'Students');
+
+    data.addRows([
+      ['Great', great],
+      ['Good', good],
+      ['Neutral', neutral],
+      ['Bad', bad],
+      ['Very Bad', veryBad]
+    ]);
+
+    // Set chart options
+    var options = {'title':'Number of Students for each Metric',
+                   'width':400,
+                   'height':300};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('session1chart'));
+    chart.draw(data, options);
+  }
+
+  function session2Chart() {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+
+    var great = parseInt($('#great-ct2').val());
+    var good = parseInt($('#good-ct2').val());
+    var neutral = parseInt($('#neutral-ct2').val());
+    var bad = parseInt($('#bad-ct2').val());
+    var veryBad = parseInt($('#very-bad-ct2').val());
+
+    data.addColumn('string', 'Metric');
+
+    data.addColumn('number', 'Students');
+
+    data.addRows([
+      ['Great', great],
+      ['Good', good],
+      ['Neutral', neutral],
+      ['Bad', bad],
+      ['Very Bad', veryBad]
+    ]);
+
+    // Set chart options
+    var options = {'title':'Number of Students for each Metric',
+                   'width':400,
+                   'height':300};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('session2chart'));
+    chart.draw(data, options);
+  }
+
+</script>
+
+<form id="cts">
+  <input id="great-ct1" value="{{ eval_great1.count }}" hidden disabled />
+  <input id="good-ct1" value="{{ eval_good1.count }}" hidden disabled />
+  <input id="neutral-ct1" value="{{ eval_neutral1.count }}" hidden disabled />
+  <input id="bad-ct1" value="{{ eval_bad1.count }}" hidden disabled />
+  <input id="very-bad-ct1" value="{{ eval_very_bad1.count }}" hidden disabled />
+
+  <input id="great-ct2" value="{{ eval_great2.count }}" hidden disabled />
+  <input id="good-ct2" value="{{ eval_good2.count }}" hidden disabled />
+  <input id="neutral-ct2" value="{{ eval_neutral2.count }}" hidden disabled />
+  <input id="bad-ct2" value="{{ eval_bad2.count }}" hidden disabled />
+  <input id="very-bad-ct2" value="{{ eval_very_bad2.count }}" hidden disabled />
+</form>
+
+<h2> Evaluation Report </h2>
+<h3> Course: {{ session1.semester_course_id.course_num }},
+  {{ session1.semester_course_id.semester}} {{ session1.semester_course_id.year}}</h3>
+
+<table>
+<tr>
+  <th class="two-session-data">
+    <h3> Session #1 Start: {{ session1.session_start }}</h3>
+    <h3> Session #1 End: {{ session1.session_end }}</h3>
+    <h3> Session #1 Password: {{ session1.session_eval_pswd }}</h3>
+  </th>
+  <th class="two-session-data">
+    <h3> Session #2 Start: {{ session2.session_start }}</h3>
+    <h3> Session #2 End: {{ session2.session_end }}</h3>
+    <h3> Session #2 Password: {{ session2.session_eval_pswd }}</h3>
+  </th>
+</tr>
+
+<tr>
+  <td class="two-session-data"><div id="session1chart"></div></td>
+  <td class="two-session-data"><div id="session2chart"></div></td>
+</tr>
+</table>
+
+<h3> Session Metric Counts</h3>
+<table border="1">
+  <tr>
+    <th>
+      Metric
+    </th>
+    <th>
+      Session #1
+    </th>
+    <th>
+      Session #2
+    </th>
+  </tr>
+  <tr>
+    <td>
+      Great
+    </td>
+    <td>
+      {{ eval_great1.count }}
+    </td>
+    <td>
+      {{ eval_great2.count }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Good
+    </td>
+    <td>
+      {{ eval_good1.count }}
+    </td>
+    <td>
+      {{ eval_good2.count }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Neutral
+    </td>
+    <td>
+      {{ eval_neutral1.count }}
+    </td>
+    <td>
+      {{ eval_neutral2.count }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Bad
+    </td>
+    <td>
+      {{ eval_bad1.count }}
+    </td>
+    <td>
+      {{ eval_bad2.count }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Very Bad
+    </td>
+    <td>
+      {{ eval_very_bad1.count }}
+    </td>
+    <td>
+      {{ eval_very_bad2.count }}
+    </td>
+  </tr>
+</table>
+
+
+<table>
+
+<tr>
+  <td class="two-session-data"><h3> Session #1 Comments</h3></td>
+  <td class="two-session-data"><h3> Session #2 Comments</h3></td>
+</tr>
+
+<tr>
+  <td class="two-session-data">
+    <table border="1">
+      <tr>
+        <th>
+          Comments of Students who ticked "Great"
+        </th>
+      </tr>
+      {% for eval in eval_great1 %}
+        <tr>
+          <td>
+            {{ eval.class_comment }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <td class="two-session-data">
+      <table border="1">
+        <tr>
+          <th>
+            Comments of Students who ticked "Great"
+          </th>
+        </tr>
+        {% for eval in eval_great2 %}
+          <tr>
+            <td>
+              {{ eval.class_comment }}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </td>
+</tr>
+
+<tr>
+  <td class="two-session-data">
+    <table border="1">
+      <tr>
+        <th>
+          Comments of Students who ticked "Good"
+        </th>
+      </tr>
+      {% for eval in eval_good1 %}
+        <tr>
+          <td>
+            {{ eval.class_comment }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </td>
+  <td class="two-session-data">
+    <table border="1">
+      <tr>
+        <th>
+          Comments of Students who ticked "Good"
+        </th>
+      </tr>
+      {% for eval in eval_good2 %}
+        <tr>
+          <td>
+            {{ eval.class_comment }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </td>
+</tr>
+
+<tr>
+  <td class="two-session-data">
+    <table border="1">
+      <tr>
+        <th>
+          Comments of Students who ticked "Neutral"
+        </th>
+      </tr>
+      {% for eval in eval_neutral1 %}
+        <tr>
+          <td>
+            {{ eval.class_comment }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </td>
+  <td class="two-session-data">
+    <table border="1">
+      <tr>
+        <th>
+          Comments of Students who ticked "Neutral"
+        </th>
+      </tr>
+      {% for eval in eval_neutral2 %}
+        <tr>
+          <td>
+            {{ eval.class_comment }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </td>
+</tr>
+
+<tr>
+  <td class="two-session-data">
+    <table border="1">
+      <tr>
+        <th>
+          Comments of Students who ticked "Bad"
+        </th>
+      </tr>
+      {% for eval in eval_bad1 %}
+        <tr>
+          <td>
+            {{ eval.class_comment }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </td>
+  <td class="two-session-data">
+    <table border="1">
+      <tr>
+        <th>
+          Comments of Students who ticked "Bad"
+        </th>
+      </tr>
+      {% for eval in eval_bad2 %}
+        <tr>
+          <td>
+            {{ eval.class_comment }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </td>
+</tr>
+<tr>
+  <td class="two-session-data">
+    <table border="1">
+      <tr>
+        <th>
+          Comments of Students who ticked "Very Bad"
+        </th>
+      </tr>
+      {% for eval in eval_very_bad1 %}
+        <tr>
+          <td>
+            {{ eval.class_comment }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </td>
+  <td class="two-session-data">
+    <table border="1">
+      <tr>
+        <th>
+          Comments of Students who ticked "Very Bad"
+        </th>
+      </tr>
+      {% for eval in eval_very_bad2 %}
+        <tr>
+          <td>
+            {{ eval.class_comment }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </td>
+</tr>
+</table>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+{% endblock %}

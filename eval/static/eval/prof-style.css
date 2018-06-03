@@ -1,0 +1,21 @@
+
+#to-homepage{
+  position:fixed;
+  right:100px;
+  top:5px;
+}
+
+#to-logout{
+  position:fixed;
+  right:20px;
+  top:5px;
+}
+
+table{
+  border-collapse: collapse;
+  width: 500px;
+}
+
+*{
+  font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}

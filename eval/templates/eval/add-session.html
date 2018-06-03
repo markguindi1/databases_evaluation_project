@@ -1,0 +1,45 @@
+
+{% extends 'eval/prof-base.html' %}
+
+{% block body %}
+
+<h3> Add Session </h3>
+
+<form action="{% url 'eval:submit-add-session' %}" method="POST">
+  {% csrf_token %}
+
+  <input type="text" name="course-id" value="{{ course.pk }}" disabled hidden />
+
+  <h3> Course: {{ course.course_num }}, {{ course.semester}} {{ course.year }} </h3>
+  <br />
+  <label> Session Start Time: </label>
+  <br />
+  <br />
+  <input type="datetime-local" name="session-start" required/>
+  <br />
+  <br />
+  <br />
+
+  <label> Session End Time: </label>
+  <br />
+  <br />
+  <input type="datetime-local" name="session-end" required/>
+  <br />
+  <br />
+  <br />
+
+
+  <label> Evalaution Password (max. 15 characters): </label>
+  <br />
+  <br />
+  <input type="radio" name="session-pswd" value=""/>&nbsp;Input password:&nbsp;<input type="text" name="input-pswd" /><br />
+  <input type="radio" name="session-pswd" value="{{ random_pswd }}" /> Use auto-generated password: {{ random_pswd }} <br />
+  <br />
+  <br />
+
+  <input type="submit" value="Add Session" />
+
+
+</form>
+
+{% endblock %}

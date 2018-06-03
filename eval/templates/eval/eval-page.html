@@ -1,0 +1,43 @@
+
+
+<h2> Class Evaluation</h2>
+
+<!-- add session info -->
+<h4>
+  Course number: {{ session.semester_course_id.course_num }} <br />
+  Semester: {{ session.semester_course_id.semester }} {{ session.semester_course_id.year }} <br />
+  Submission Start Time: {{ session.session_start }} <br />
+  Submission End Time: {{ session.session_end }} <br />
+  Comments will not be submitted without choosing a class metric. <br />
+  If you do not submit before the submission end time, your response will not be saved. <br />
+</h4>
+
+<form action="{% url 'eval:eval-submit' %}" method="POST">
+
+  {% csrf_token %}
+
+  <label> Class Metric: </label>
+  <br/>
+  <br/>
+  <input type="radio" name="class-metric" value="Great" /><label> Great </label><br/>
+  <input type="radio" name="class-metric" value="Good" /><label> Good  </label><br/>
+  <input type="radio" name="class-metric" value="Neutral" /><label> Neutral  </label><br/>
+  <input type="radio" name="class-metric" value="Bad" /><label> Bad  </label><br/>
+  <input type="radio" name="class-metric" value="Very Bad" /><label> Very bad  </label><br/>
+
+  <br/>
+  <br/>
+
+  <label> Class Comment (max. 150 characters): </label>
+  <br/>
+  <label> (Comments will not be submitted without choosing a class metric) </label>
+  <br/>
+  <br/>
+  <input type="text" name="class-comment" placeholder="Comments" size="100" maxlength="150"/>
+
+  <br/>
+  <br/>
+
+  <input type="submit" value="Submit Evaluation">
+
+</form>

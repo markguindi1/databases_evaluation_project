@@ -1,0 +1,24 @@
+
+
+{% if error_message %}
+  <label style="color: red"> {{ error_message }} </label>
+  <br/>
+  <br/>
+{% endif %}
+
+<form action="{% url 'eval:check-eval-pswd' %}" method="POST">
+  {% csrf_token %}
+
+  <label> Please enter the password to evaluate the course: </label>
+  <br/>
+  <br/>
+  <input type="text" name="eval-password" />
+  <br/>
+  <br/>
+  <input type="submit" value="Evaluate Course">
+
+</form>
+<br/>
+<br/>
+
+<a href="{% url 'eval:prof-login' %}"> Click here to go to the Professor login page </a>

@@ -1,0 +1,49 @@
+
+{% extends 'eval/prof-base.html' %}
+
+{% block body %}
+
+<h3> Delete Session </h3>
+
+<form action="{% url 'eval:submit-delete-session' %}" method="POST">
+  {% csrf_token %}
+
+  <input type="text" name="course-id" value="{{ course.pk }}" disabled hidden />
+
+  <h3> Course: {{ course.course_num }}, {{ course.semester}} {{ course.year }} </h3>
+  <br />
+  <label> Session Start Time: </label>
+  <br />
+  <br />
+  <input type="datetime-local" name="session-start" value="{{ session.session_start|date:"Y-m-d" }}T{{ session.session_start|time:"H:i"}}" disabled required/>
+  <br />
+  <br />
+  <br />
+
+  <label> Session End Time: </label>
+  <br />
+  <br />
+  <input type="datetime-local" name="session-end" value="{{ session.session_end|date:"Y-m-d" }}T{{ session.session_end|time:"H:i"}}" disabled required/>
+  <br />
+  <br />
+  <br />
+
+
+  <label> Evalaution Password (max. 15 characters): </label>
+  <br />
+  <br />
+
+  <input type="text" name="session-pswd" value="{{ session.session_eval_pswd }}" disabled/><br />
+  <br />
+  <br />
+
+  <label> Are you sure you want to delete this session?<br />
+    Deleting this session will delete all submitted evaluations associated with this session!
+  </label>
+  <br />
+  <input type="submit" style="color:red" value="DELETE SESSION" />
+
+</form>
+
+
+{% endblock %}
