@@ -9,3 +9,7 @@ Professors can add courses which they teach, and the system automatically genera
 The Professor can view reports for each session, for all sessions of a course over an entire semester, and for a comparison of two sessions of the same course. Charts are also seen for every report, implemented using the Google Charts API. 
 
 I am aware that the way this is implemented, only one Professor can use this system, and that students can submit multiple evaluations if they want, and that students outside the course can also submit evaluations. But, I was told to implement it this way by my Professor, who was concerned with student's anonymity, and felt that the best way for them to be anonymous is to not stire their information at all. The way I implemented the project in the old version, the system could be used by multiple professors, and only students enrolled in the course could evaluate the course, and each student can only evaluate a class once. ¯\_(ツ)_/¯
+
+I intended to organize the eval/views.py file into multiple files, for clarity and readability of code. But, as I was short on time, I was unable to get the multiple files to work properly, so I kept it as one file. 
+
+I am aware that the code for the forms is quite repetitive, and that the templates could have been made much simpler using Django Forms, but I was not aware of how to use them at the time. I hope to implement them, as well as other useful Django features, in future projects. 
