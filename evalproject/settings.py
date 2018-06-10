@@ -85,15 +85,30 @@ WSGI_APPLICATION = 'evalproject.wsgi.application'
 #     }
 # }
 
+# MY old DB settings, using MySQL.
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': database_name, # from settings_secret.py
+#         'USER': database_user, # from settings_secret.py
+#         'PASSWORD': database_password, # from settings_secret.py
+#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+#         'PORT': '3306',
+#         'ATOMIC_REQUESTS': True,
+#     }
+# }
+
+# New DB settings, now using PostgreSQL
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': database_name, # from settings_secret.py
         'USER': database_user, # from settings_secret.py
         'PASSWORD': database_password, # from settings_secret.py
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'HOST': '',   # Or an IP Address that your DB is hosted on
+        'PORT': '5432',
         'ATOMIC_REQUESTS': True,
     }
 }
