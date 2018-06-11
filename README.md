@@ -2,6 +2,8 @@
 
 This project is the newer, final version of a class evaluation system, which was an academic project for a Databases course. This version contains the comnplete functionality specified in our project requirements. 
 
+This project was built using the Python programming language (version 3), and the Django Web Framework (version 2). The database backend used was originally MySQL, but was recently moved to PostgreSQL. The frontend was built using HTML, Javascript (JQuery and the Google Charts API in specific), and a bit of CSS. 
+
 This system allows professors to log in to access the system. As opposed to the old version of this project, students do not have their own login credentials or homepage. Instead, the professor provides students with a "password" which they input into the course evaluation homepage, and if the password is correct, students are taken straight to the evaluation page, where they can complete and submit the evaluation. 
 
 Professors can add courses which they teach, and the system automatically generates evaluation sessions based on the weekly evaluation times and the start and end days of the semester. The auto-generated sessions contain a randomly generated evaluation password for the students, which the Professor can change at any time. If a course's info is changed, the system will automatically create or delete evaluation session accordingly. The professor can also manually add, edit, and delete evaluation sessions and courses.
