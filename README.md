@@ -15,3 +15,5 @@ I am aware that the way this is implemented, only one Professor can use this sys
 I intended to organize the eval/views.py file into multiple files, for clarity and readability of code. But, as I was short on time, I was unable to get the multiple files to work properly, so I kept it as one file. 
 
 I am aware that the code for the forms is quite repetitive, and that the templates could have been made much simpler using Django Forms, but I was not aware of how to use them at the time. I hope to implement them, as well as other useful Django features, in future projects. 
+
+I am also aware that the way user authentication is done in this project lacks basic security concerns (storing plaintext passwords, checking raw user input, etc.), but the focus of this project was not as concerned with security as much as with learning the basics of web frameworks. In my future projects, I plan on taking the basic security of my applications seriously, and using basic security features that come with the framework used. 
